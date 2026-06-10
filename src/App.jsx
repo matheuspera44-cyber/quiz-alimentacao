@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 /* ─── QUESTIONS ─── */
 const questions = [
@@ -20,7 +20,7 @@ const questions = [
     id: 2,
     type: "drag-sort",
     emoji: "🥗",
-    q: "Arraste para separar: quais são alimentos IN NATURA que devem ser priorizados?",
+    q: "Selecione todos os alimentos IN NATURA que devem ser priorizados:",
     allItems: [
       { label: "🍎 Maçã", correct: true },
       { label: "🥦 Brócolis", correct: true },
@@ -123,16 +123,16 @@ const questions = [
   },
 ];
 
-const GREEN = "#1A6B3A";
-const LIME = "#52C870";
-const MINT = "#E8F7EE";
-const CREAM = "#F5F2EB";
+const GREEN  = "#1A6B3A";
+const LIME   = "#52C870";
+const MINT   = "#E8F7EE";
+const CREAM  = "#F5F2EB";
 const ORANGE = "#E07B3A";
-const RED = "#D44";
-const MUTED = "#6B7C6D";
-const WHITE = "#ffffff";
+const RED    = "#D44444";
+const MUTED  = "#6B7C6D";
+const WHITE  = "#ffffff";
 
-/* ─── PARTICLE ─── */
+/* ─── PARTICLES ─── */
 function Particles({ show }) {
   const emojis = ["🥦","🍎","🥕","🍌","🥗","💧","🌿","🍇"];
   if (!show) return null;
@@ -146,15 +146,15 @@ function Particles({ show }) {
           fontSize:`${Math.random()*1.4+1}rem`,
           animation:`fall${i%3} 1.2s ease-out forwards`,
           animationDelay:`${Math.random()*0.5}s`,
-          opacity: 0,
+          opacity:0,
         }}>
           {emojis[i % emojis.length]}
         </div>
       ))}
       <style>{`
-        @keyframes fall0 { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(80px) rotate(180deg);opacity:0} }
-        @keyframes fall1 { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100px) rotate(-120deg);opacity:0} }
-        @keyframes fall2 { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(60px) rotate(240deg);opacity:0} }
+        @keyframes fall0{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(80px) rotate(180deg);opacity:0}}
+        @keyframes fall1{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100px) rotate(-120deg);opacity:0}}
+        @keyframes fall2{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(60px) rotate(240deg);opacity:0}}
       `}</style>
     </div>
   );
@@ -169,7 +169,7 @@ function ProgressBar({ current, total, score }) {
         <span style={{ color:GREEN }}>✅ {score} acertos</span>
       </div>
       <div style={{ height:10, background:"#D5EDD9", borderRadius:99, overflow:"hidden" }}>
-        <div style={{ height:"100%", width:`${((current)/total)*100}%`, background:`linear-gradient(90deg,${LIME},${GREEN})`, borderRadius:99, transition:"width .5s cubic-bezier(.4,0,.2,1)" }} />
+        <div style={{ height:"100%", width:`${(current/total)*100}%`, background:`linear-gradient(90deg,${LIME},${GREEN})`, borderRadius:99, transition:"width .5s cubic-bezier(.4,0,.2,1)" }} />
       </div>
     </div>
   );
@@ -188,12 +188,12 @@ function EmojiPick({ q, onAnswer, answered }) {
       {q.opts.map(o => {
         let bg = WHITE, border = "#E0EDE4", color = "#1C2B1E";
         if (sel !== null) {
-          if (o.val === q.correct) { bg = MINT; border = LIME; }
-          else if (o.val === sel) { bg = "#FDEAEA"; border = RED; color = RED; }
+          if (o.val === q.correct)  { bg = MINT;      border = LIME; }
+          else if (o.val === sel)   { bg = "#FDEAEA"; border = RED; color = RED; }
         }
         return (
           <button key={o.val} onClick={() => pick(o.val)} disabled={answered}
-            style={{ background:bg, border:`2px solid ${border}`, borderRadius:14, padding:"14px 18px", fontSize:"1rem", fontWeight:700, color, cursor: answered?"default":"pointer", textAlign:"left", transition:"all .2s", transform: sel===o.val?"scale(1.02)":"scale(1)" }}>
+            style={{ background:bg, border:`2px solid ${border}`, borderRadius:14, padding:"14px 18px", fontSize:"1rem", fontWeight:700, color, cursor:answered?"default":"pointer", textAlign:"left", transition:"all .2s", transform:sel===o.val?"scale(1.02)":"scale(1)" }}>
             {o.label}
           </button>
         );
@@ -216,12 +216,12 @@ function TrueFalse({ q, onAnswer, answered }) {
       {opts.map(o => {
         let bg = WHITE, border = "#E0EDE4";
         if (sel !== null) {
-          if (o.val === q.correct) { bg = MINT; border = LIME; }
-          else if (o.val === sel) { bg = "#FDEAEA"; border = RED; }
+          if (o.val === q.correct) { bg = MINT;      border = LIME; }
+          else if (o.val === sel)  { bg = "#FDEAEA"; border = RED; }
         }
         return (
           <button key={String(o.val)} onClick={() => pick(o.val)} disabled={answered}
-            style={{ flex:1, background:bg, border:`2px solid ${border}`, borderRadius:14, padding:"22px 10px", fontSize:"1.1rem", fontWeight:800, cursor: answered?"default":"pointer", transition:"all .2s" }}>
+            style={{ flex:1, background:bg, border:`2px solid ${border}`, borderRadius:14, padding:"22px 10px", fontSize:"1.1rem", fontWeight:800, cursor:answered?"default":"pointer", transition:"all .2s" }}>
             {o.label}
           </button>
         );
@@ -241,10 +241,10 @@ function NumberSlider({ q, onAnswer, answered }) {
   }
   const pct = ((val - q.min) / (q.max - q.min)) * 100;
   const isCorrect = locked && val === q.correct;
-  const isWrong = locked && val !== q.correct;
+  const isWrong   = locked && val !== q.correct;
   return (
     <div style={{ textAlign:"center" }}>
-      <div style={{ fontSize:"4rem", fontWeight:900, color: isCorrect?GREEN : isWrong?RED : GREEN, marginBottom:8, transition:"color .3s" }}>{val}</div>
+      <div style={{ fontSize:"4rem", fontWeight:900, color:isCorrect?GREEN:isWrong?RED:GREEN, marginBottom:8, transition:"color .3s" }}>{val}</div>
       <div style={{ fontSize:".85rem", color:MUTED, marginBottom:20 }}>participantes</div>
       <div style={{ position:"relative", marginBottom:24 }}>
         <div style={{ height:8, background:"#D5EDD9", borderRadius:99, overflow:"hidden" }}>
@@ -252,7 +252,7 @@ function NumberSlider({ q, onAnswer, answered }) {
         </div>
         <input type="range" min={q.min} max={q.max} value={val} disabled={locked}
           onChange={e => setVal(Number(e.target.value))}
-          style={{ position:"absolute", top:0, left:0, width:"100%", opacity:0, height:8, cursor: locked?"default":"pointer" }} />
+          style={{ position:"absolute", top:0, left:0, width:"100%", opacity:0, height:8, cursor:locked?"default":"pointer" }} />
         <div style={{ display:"flex", justifyContent:"space-between", fontSize:".75rem", color:MUTED, marginTop:6 }}>
           <span>{q.min}</span><span>{q.max}</span>
         </div>
@@ -263,7 +263,7 @@ function NumberSlider({ q, onAnswer, answered }) {
         </button>
       )}
       {locked && (
-        <div style={{ background: isCorrect?MINT:"#FDEAEA", border:`2px solid ${isCorrect?LIME:RED}`, borderRadius:12, padding:"12px 18px", fontWeight:700, color: isCorrect?GREEN:RED }}>
+        <div style={{ background:isCorrect?MINT:"#FDEAEA", border:`2px solid ${isCorrect?LIME:RED}`, borderRadius:12, padding:"12px 18px", fontWeight:700, color:isCorrect?GREEN:RED }}>
           {isCorrect ? `✅ Correto! São ${q.correct} participantes.` : `❌ Errado. A resposta certa é ${q.correct} participantes.`}
         </div>
       )}
@@ -271,11 +271,10 @@ function NumberSlider({ q, onAnswer, answered }) {
   );
 }
 
-/* ─── DRAG SORT (click-to-toggle) ─── */
+/* ─── DRAG SORT (click-to-select) ─── */
 function DragSort({ q, onAnswer, answered }) {
   const [selected, setSelected] = useState([]);
-  const [locked, setLocked] = useState(false);
-
+  const [locked, setLocked]     = useState(false);
   function toggle(label) {
     if (locked) return;
     setSelected(s => s.includes(label) ? s.filter(x => x !== label) : [...s, label]);
@@ -287,7 +286,6 @@ function DragSort({ q, onAnswer, answered }) {
     const ok = selected.length === correctLabels.length && correctLabels.every(l => selected.includes(l));
     setTimeout(() => onAnswer(ok), 700);
   }
-
   return (
     <div>
       <p style={{ fontSize:".85rem", color:MUTED, marginBottom:12, fontWeight:600 }}>👆 Toque nos alimentos in natura para selecioná-los</p>
@@ -296,12 +294,12 @@ function DragSort({ q, onAnswer, answered }) {
           const isSel = selected.includes(item.label);
           let bg = WHITE, border = "#E0EDE4";
           if (locked) {
-            if (item.correct) { bg = MINT; border = LIME; }
-            else if (isSel) { bg = "#FDEAEA"; border = RED; }
+            if (item.correct)      { bg = MINT;      border = LIME; }
+            else if (isSel)        { bg = "#FDEAEA"; border = RED; }
           } else if (isSel) { bg = MINT; border = LIME; }
           return (
             <button key={item.label} onClick={() => toggle(item.label)} disabled={locked}
-              style={{ background:bg, border:`2px solid ${border}`, borderRadius:99, padding:"10px 18px", fontSize:".95rem", fontWeight:700, cursor: locked?"default":"pointer", transition:"all .2s", transform: isSel && !locked?"scale(1.06)":"scale(1)" }}>
+              style={{ background:bg, border:`2px solid ${border}`, borderRadius:99, padding:"10px 18px", fontSize:".95rem", fontWeight:700, cursor:locked?"default":"pointer", transition:"all .2s", transform:isSel&&!locked?"scale(1.06)":"scale(1)" }}>
               {item.label}
             </button>
           );
@@ -309,7 +307,7 @@ function DragSort({ q, onAnswer, answered }) {
       </div>
       {!locked && (
         <button onClick={confirm} disabled={selected.length === 0}
-          style={{ background: selected.length===0?"#ccc":GREEN, color:WHITE, border:"none", borderRadius:12, padding:"12px 32px", fontSize:"1rem", fontWeight:800, cursor: selected.length===0?"default":"pointer" }}>
+          style={{ background:selected.length===0?"#ccc":GREEN, color:WHITE, border:"none", borderRadius:12, padding:"12px 32px", fontSize:"1rem", fontWeight:800, cursor:selected.length===0?"default":"pointer" }}>
           Confirmar seleção
         </button>
       )}
@@ -321,9 +319,8 @@ function DragSort({ q, onAnswer, answered }) {
 function Match({ q, onAnswer, answered }) {
   const [leftSel, setLeftSel] = useState(null);
   const [matched, setMatched] = useState({});
-  const [locked, setLocked] = useState(false);
-
-  function pickLeft(i) { if (locked) return; setLeftSel(i); }
+  const [locked, setLocked]   = useState(false);
+  function pickLeft(i)  { if (locked) return; setLeftSel(i); }
   function pickRight(label) {
     if (locked || leftSel === null) return;
     const newMatched = { ...matched, [leftSel]: label };
@@ -335,12 +332,11 @@ function Match({ q, onAnswer, answered }) {
       setTimeout(() => onAnswer(ok), 700);
     }
   }
-
   const usedRights = Object.values(matched);
   return (
     <div>
       <p style={{ fontSize:".82rem", color:MUTED, marginBottom:12, fontWeight:600 }}>
-        {leftSel !== null ? `Agora toque na opção correta para "${q.pairs[leftSel].left}"` : "1️⃣ Toque em uma refeição, depois 2️⃣ toque na sugestão"}
+        {leftSel !== null ? `Agora toque na opção correta para "${q.pairs[leftSel].left}"` : "1️⃣ Toque em uma refeição  →  2️⃣ Toque na sugestão"}
       </p>
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
         <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
@@ -348,12 +344,12 @@ function Match({ q, onAnswer, answered }) {
             const isMatched = matched[i] !== undefined;
             const isSel = leftSel === i;
             let bg = WHITE, border = "#E0EDE4";
-            if (locked) { bg = MINT; border = LIME; }
-            else if (isSel) { bg = "#EAF7E5"; border = LIME; }
-            else if (isMatched) { bg = "#F0FAF2"; border = "#A8DDB5"; }
+            if (locked)       { bg = MINT;      border = LIME; }
+            else if (isSel)   { bg = "#EAF7E5"; border = LIME; }
+            else if (isMatched){ bg = "#F0FAF2"; border = "#A8DDB5"; }
             return (
               <button key={i} onClick={() => pickLeft(i)} disabled={locked || isMatched}
-                style={{ background:bg, border:`2px solid ${border}`, borderRadius:10, padding:"11px 10px", fontSize:".85rem", fontWeight:700, cursor: locked||isMatched?"default":"pointer", transition:"all .2s" }}>
+                style={{ background:bg, border:`2px solid ${border}`, borderRadius:10, padding:"11px 10px", fontSize:".85rem", fontWeight:700, cursor:locked||isMatched?"default":"pointer", transition:"all .2s" }}>
                 {p.left}
                 {isMatched && <div style={{ fontSize:".72rem", color:MUTED, marginTop:3 }}>→ {matched[i]}</div>}
               </button>
@@ -364,8 +360,8 @@ function Match({ q, onAnswer, answered }) {
           {q.pairs.map((p, i) => {
             const isUsed = usedRights.includes(p.right);
             return (
-              <button key={i} onClick={() => pickRight(p.right)} disabled={locked || isUsed || leftSel===null}
-                style={{ background: isUsed?"#F0FAF2":WHITE, border:`2px solid ${isUsed?"#A8DDB5":"#E0EDE4"}`, borderRadius:10, padding:"11px 10px", fontSize:".78rem", fontWeight:600, cursor: locked||isUsed||leftSel===null?"default":"pointer", opacity: leftSel===null&&!isUsed?.6:1, transition:"all .2s" }}>
+              <button key={i} onClick={() => pickRight(p.right)} disabled={locked || isUsed || leftSel === null}
+                style={{ background:isUsed?"#F0FAF2":WHITE, border:`2px solid ${isUsed?"#A8DDB5":"#E0EDE4"}`, borderRadius:10, padding:"11px 10px", fontSize:".78rem", fontWeight:600, cursor:locked||isUsed||leftSel===null?"default":"pointer", opacity:leftSel===null&&!isUsed?.6:1, transition:"all .2s" }}>
                 {p.right}
               </button>
             );
@@ -379,9 +375,8 @@ function Match({ q, onAnswer, answered }) {
 /* ─── FILL BLANK ─── */
 function FillBlank({ q, onAnswer, answered }) {
   const [filled, setFilled] = useState(Array(q.blanks.length).fill(null));
-  const [pool, setPool] = useState([...q.options]);
+  const [pool, setPool]     = useState([...q.options]);
   const [locked, setLocked] = useState(false);
-
   function pickOption(word) {
     if (locked) return;
     const idx = filled.indexOf(null);
@@ -396,7 +391,6 @@ function FillBlank({ q, onAnswer, answered }) {
       setTimeout(() => onAnswer(ok), 700);
     }
   }
-
   function removeBlank(idx) {
     if (locked) return;
     const word = filled[idx];
@@ -406,7 +400,6 @@ function FillBlank({ q, onAnswer, answered }) {
     newFilled[idx] = null;
     setFilled(newFilled);
   }
-
   return (
     <div>
       <div style={{ background:"#F0F9F3", borderRadius:14, padding:"18px 16px", marginBottom:20, fontSize:"1rem", fontWeight:700, lineHeight:2, textAlign:"center" }}>
@@ -414,7 +407,7 @@ function FillBlank({ q, onAnswer, answered }) {
         {filled.map((f, i) => (
           <span key={i}>
             <span onClick={() => removeBlank(i)}
-              style={{ display:"inline-block", minWidth:110, borderBottom:`2px solid ${f?LIME:"#aaa"}`, padding:"2px 8px", cursor: f&&!locked?"pointer":"default", color: f?GREEN:MUTED, background: f?MINT:"transparent", borderRadius:6, margin:"0 2px" }}>
+              style={{ display:"inline-block", minWidth:110, borderBottom:`2px solid ${f?LIME:"#aaa"}`, padding:"2px 8px", cursor:f&&!locked?"pointer":"default", color:f?GREEN:MUTED, background:f?MINT:"transparent", borderRadius:6, margin:"0 2px" }}>
               {f || "___"}
             </span>
             {i === 0 ? " " : i === 1 ? " ao Seu " : ""}
@@ -439,13 +432,11 @@ function FillBlank({ q, onAnswer, answered }) {
 function QuestionCard({ q, onAnswer, answered }) {
   return (
     <div style={{ background:WHITE, borderRadius:20, boxShadow:"0 6px 32px rgba(26,107,58,.10)", padding:"28px 24px", width:"100%", maxWidth:600, animation:"slideIn .35s ease" }}>
-      <style>{`@keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}`}</style>
       <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
         <span style={{ fontSize:"2rem" }}>{q.emoji}</span>
         <span style={{ fontSize:".78rem", fontWeight:900, letterSpacing:".1em", textTransform:"uppercase", color:LIME }}>Pergunta {q.id} de 10</span>
       </div>
       <p style={{ fontSize:"1.05rem", fontWeight:700, lineHeight:1.5, marginBottom:20, color:"#1C2B1E" }}>{q.q}</p>
-
       {q.type === "emoji-pick"    && <EmojiPick    q={q} onAnswer={onAnswer} answered={answered} />}
       {q.type === "true-false"    && <TrueFalse    q={q} onAnswer={onAnswer} answered={answered} />}
       {q.type === "number-slider" && <NumberSlider q={q} onAnswer={onAnswer} answered={answered} />}
@@ -456,15 +447,15 @@ function QuestionCard({ q, onAnswer, answered }) {
   );
 }
 
-/* ─── FEEDBACK OVERLAY ─── */
+/* ─── FEEDBACK BANNER ─── */
 function FeedbackBanner({ correct, explanation, onNext, isLast }) {
   return (
-    <div style={{ width:"100%", maxWidth:600, marginTop:14, background: correct?MINT:"#FDEAEA", border:`2px solid ${correct?LIME:RED}`, borderRadius:16, padding:"16px 20px", animation:"slideIn .3s ease" }}>
-      <div style={{ fontWeight:800, fontSize:"1rem", color: correct?GREEN:RED, marginBottom:6 }}>
+    <div style={{ width:"100%", maxWidth:600, marginTop:14, background:correct?MINT:"#FDEAEA", border:`2px solid ${correct?LIME:RED}`, borderRadius:16, padding:"16px 20px", animation:"slideIn .3s ease" }}>
+      <div style={{ fontWeight:800, fontSize:"1rem", color:correct?GREEN:RED, marginBottom:6 }}>
         {correct ? "✅ Correto! Muito bem!" : "❌ Não foi dessa vez!"}
       </div>
       <div style={{ fontSize:".88rem", color:"#333", lineHeight:1.55, marginBottom:14 }}>{explanation}</div>
-      <button onClick={onNext} style={{ background: correct?GREEN:ORANGE, color:WHITE, border:"none", borderRadius:10, padding:"11px 28px", fontWeight:800, fontSize:".95rem", cursor:"pointer" }}>
+      <button onClick={onNext} style={{ background:correct?GREEN:ORANGE, color:WHITE, border:"none", borderRadius:10, padding:"11px 28px", fontWeight:800, fontSize:".95rem", cursor:"pointer" }}>
         {isLast ? "Ver resultado 🏆" : "Próxima →"}
       </button>
     </div>
@@ -480,12 +471,13 @@ function Result({ score, total, onRestart }) {
     : pct >= 60  ? { t:"🥈", msg:"Bom resultado! Vale revisar alguns pontos." }
     : pct >= 40  ? { t:"🌱", msg:"Você está crescendo! Revise o material e tente de novo." }
     :              { t:"📚", msg:"Estude o projeto e tente novamente — você consegue!" };
-
   return (
     <div style={{ background:WHITE, borderRadius:20, boxShadow:"0 6px 32px rgba(26,107,58,.12)", padding:"40px 28px", width:"100%", maxWidth:600, textAlign:"center", animation:"slideIn .4s ease" }}>
       <div style={{ fontSize:"4rem", marginBottom:8 }}>{grade.t}</div>
       <h2 style={{ color:GREEN, fontSize:"1.7rem", fontWeight:900, marginBottom:4 }}>Quiz concluído!</h2>
-      <div style={{ fontSize:"3.5rem", fontWeight:900, color:GREEN, margin:"16px 0 4px", lineHeight:1 }}>{score}<span style={{ fontSize:"1.5rem", color:MUTED }}>/{total}</span></div>
+      <div style={{ fontSize:"3.5rem", fontWeight:900, color:GREEN, margin:"16px 0 4px", lineHeight:1 }}>
+        {score}<span style={{ fontSize:"1.5rem", color:MUTED }}>/{total}</span>
+      </div>
       <div style={{ color:MUTED, fontWeight:700, marginBottom:20 }}>{pct}% de aproveitamento</div>
       <div style={{ height:12, background:"#D5EDD9", borderRadius:99, overflow:"hidden", marginBottom:20 }}>
         <div style={{ height:"100%", width:`${pct}%`, background:`linear-gradient(90deg,${LIME},${GREEN})`, borderRadius:99 }} />
@@ -502,14 +494,12 @@ function Result({ score, total, onRestart }) {
 
 /* ─── APP ─── */
 export default function App() {
-  const [screen, setScreen] = useState("start");
-  const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(false);
+  const [screen, setScreen]           = useState("start");
+  const [current, setCurrent]         = useState(0);
+  const [score, setScore]             = useState(0);
+  const [answered, setAnswered]       = useState(false);
   const [lastCorrect, setLastCorrect] = useState(null);
   const [showParticles, setShowParticles] = useState(false);
-
-  function startQuiz() { setScreen("quiz"); }
 
   function handleAnswer(correct) {
     setAnswered(true);
@@ -538,7 +528,13 @@ export default function App() {
 
   return (
     <div style={{ minHeight:"100vh", background:CREAM, fontFamily:"system-ui,sans-serif", display:"flex", flexDirection:"column", alignItems:"center", padding:"24px 16px 60px" }}>
-      <style>{`* { box-sizing: border-box; } button { transition: transform .1s; } button:active:not(:disabled) { transform: scale(.97); }`}</style>
+      <style>{`
+        * { box-sizing: border-box; }
+        button { transition: transform .1s; }
+        button:active:not(:disabled) { transform: scale(.97); }
+        @keyframes slideIn { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:translateY(0) } }
+      `}</style>
+
       <Particles show={showParticles} />
 
       {/* HEADER */}
@@ -547,9 +543,9 @@ export default function App() {
         <div style={{ color:GREEN, fontWeight:900, fontSize:"1.05rem", marginTop:2 }}>Alimentação Saudável ao Seu Alcance</div>
       </div>
 
+      {/* START */}
       {screen === "start" && (
         <div style={{ background:WHITE, borderRadius:20, boxShadow:"0 6px 32px rgba(26,107,58,.10)", padding:"40px 28px", maxWidth:520, width:"100%", textAlign:"center", animation:"slideIn .4s ease" }}>
-          <style>{`@keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}`}</style>
           <div style={{ fontSize:"3rem", marginBottom:10 }}>🧠</div>
           <h1 style={{ color:GREEN, fontSize:"1.5rem", fontWeight:900, marginBottom:10 }}>Quiz Interativo</h1>
           <p style={{ color:MUTED, lineHeight:1.65, fontSize:".95rem", marginBottom:24 }}>
@@ -560,12 +556,13 @@ export default function App() {
               <span key={b} style={{ background:MINT, color:GREEN, borderRadius:99, padding:"6px 14px", fontSize:".8rem", fontWeight:700 }}>{b}</span>
             ))}
           </div>
-          <button onClick={startQuiz} style={{ background:GREEN, color:WHITE, border:"none", borderRadius:14, padding:"15px 52px", fontSize:"1.05rem", fontWeight:900, cursor:"pointer" }}>
+          <button onClick={() => setScreen("quiz")} style={{ background:GREEN, color:WHITE, border:"none", borderRadius:14, padding:"15px 52px", fontSize:"1.05rem", fontWeight:900, cursor:"pointer" }}>
             Começar! 🚀
           </button>
         </div>
       )}
 
+      {/* QUIZ */}
       {screen === "quiz" && (
         <>
           <ProgressBar current={current} total={questions.length} score={score} />
@@ -581,6 +578,7 @@ export default function App() {
         </>
       )}
 
+      {/* RESULT */}
       {screen === "result" && <Result score={score} total={questions.length} onRestart={restart} />}
     </div>
   );
